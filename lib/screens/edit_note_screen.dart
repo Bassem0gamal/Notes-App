@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/sqldb.dart';
+import 'package:note_app/database/sqldb.dart';
 
-import 'home.dart';
+import 'home_screen.dart';
 
 class EditNote extends StatefulWidget {
   const EditNote(
-      {Key? key,
-      required this.note,
-      required this.title,
-      required this.id,
-      required this.color})
+      {Key? key, required this.note, required this.title, required this.id})
       : super(key: key);
 
   static String screenId = 'add_notes';
   final String note;
   final String title;
-  final String color;
   final int id;
 
   @override
@@ -29,14 +24,11 @@ class _EditNoteState extends State<EditNote> {
 
   TextEditingController note = TextEditingController();
   TextEditingController title = TextEditingController();
-  TextEditingController color = TextEditingController();
 
   @override
-
   void initState() {
     note.text = widget.note;
     title.text = widget.title;
-    color.text = widget.color;
     super.initState();
     print('initState ===================');
   }
@@ -58,21 +50,15 @@ class _EditNoteState extends State<EditNote> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   TextFormField(
-                    controller: note,
-                    decoration: const InputDecoration(
-                      hintText: 'note',
-                    ),
-                  ),
-                  TextFormField(
                     controller: title,
                     decoration: const InputDecoration(
                       hintText: 'title',
                     ),
                   ),
                   TextFormField(
-                    controller: color,
+                    controller: note,
                     decoration: const InputDecoration(
-                      hintText: 'color',
+                      hintText: 'note',
                     ),
                   ),
                   const SizedBox(
@@ -83,8 +69,7 @@ class _EditNoteState extends State<EditNote> {
                       int response = await sqlDb.updateData('''
                        UPDATE notes SET 
                         note = "${note.text}" ,
-                        title = "${title.text}" ,
-                        color = "${color.text}"
+                        title = "${title.text}" 
                        WHERE id = ${widget.id}
                         ''');
 
@@ -94,7 +79,7 @@ class _EditNoteState extends State<EditNote> {
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
                                 builder: (context) => const Home()),
-                                (route) => false);
+                            (route) => false);
                       }
                     },
                     color: Colors.blue,

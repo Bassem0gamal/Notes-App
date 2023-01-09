@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/home.dart';
-import 'package:note_app/sqldb.dart';
+import 'package:note_app/database/add_note_controller.dart';
+import 'package:note_app/screens/home_screen.dart';
+import 'package:note_app/database/sqldb.dart';
 
 class MyNotes extends StatefulWidget {
   const MyNotes({Key? key}) : super(key: key);
@@ -18,7 +19,6 @@ class _MyNotesState extends State<MyNotes> {
 
   TextEditingController note = TextEditingController();
   TextEditingController title = TextEditingController();
-  TextEditingController color = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,45 +37,27 @@ class _MyNotesState extends State<MyNotes> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   TextFormField(
-                    controller: note,
-                    decoration: const InputDecoration(
-                      hintText: 'note',
-                    ),
-                  ),
-                  TextFormField(
                     controller: title,
                     decoration: const InputDecoration(
                       hintText: 'title',
                     ),
                   ),
                   TextFormField(
-                    controller: color,
+                    controller: note,
                     decoration: const InputDecoration(
-                      hintText: 'color',
+                      hintText: 'note',
                     ),
                   ),
                   const SizedBox(
                     height: 20.0,
                   ),
                   MaterialButton(
-                    onPressed: () async {
-                      int response = await sqlDb.insertData('''
-                        INSERT INTO notes ("note" , "title" , "color")
-                        VALUES (
-                          "${note.text}" ,
-                          "${title.text}" ,
-                          "${color.text}"
-                          )
-                        ''');
-
-                      print('Response ============');
-                      print(response);
-                      if (response > 0) {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => const Home()),
-                            (route) => false);
-                      }
+                    onPressed: (){
+                      AddNoteController().add(note: note.text, title: title.text);
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const Home()),
+                              (route) => false);
                     },
                     color: Colors.blue,
                     textColor: Colors.white,
@@ -90,3 +72,23 @@ class _MyNotesState extends State<MyNotes> {
     );
   }
 }
+
+
+// () async {
+// int response = await sqlDb.insertData('''
+//                         INSERT INTO notes ("note" , "title")
+//                         VALUES (
+//                           "${note.text}" ,
+//                           "${title.text}"
+//                                 )
+//                         ''');
+//
+// print('Response ============');
+// print(response);
+// if (response > 0) {
+// Navigator.of(context).pushAndRemoveUntil(
+// MaterialPageRoute(
+// builder: (context) => const Home()),
+// (route) => false);
+// }
+// }

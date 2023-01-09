@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/add_notes.dart';
-import 'package:note_app/edit_note.dart';
-import 'package:note_app/sqldb.dart';
+import 'package:note_app/screens/add_note_screen.dart';
+import 'package:note_app/screens/edit_note_screen.dart';
+import 'package:note_app/database/sqldb.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -33,6 +33,7 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +53,7 @@ class _HomeState extends State<Home> {
           //   onPressed: () async {
           //     await sqlDb.deleteDataBase();
           //   },
-          //   child: Text('delete database'),
+          //   child: const Text('delete database'),
           // ),
           ListView.builder(
               itemCount: notes.length,
@@ -77,7 +78,6 @@ class _HomeState extends State<Home> {
                                           note: notes[index]['note'],
                                           title: notes[index]['title'],
                                           id: notes[index]['id'],
-                                          color: notes[index]['color'],
                                         )));
                               },
                             ),
