@@ -79,23 +79,3 @@ class _MyNotesState extends State<MyNotes> {
     );
   }
 }
-
-
-// () async {
-// int response = await sqlDb.insertData('''
-//                         INSERT INTO notes ("note" , "title")
-//                         VALUES (
-//                           "${note.text}" ,
-//                           "${title.text}"
-//                                 )
-//                         ''');
-//
-// print('Response ============');
-// print(response);
-// if (response > 0) {
-// Navigator.of(context).pushAndRemoveUntil(
-// MaterialPageRoute(
-// builder: (context) => const Home()),
-// (route) => false);
-// }
-// }

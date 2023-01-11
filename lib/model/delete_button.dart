@@ -3,8 +3,8 @@ import 'package:note_app/database/sqldb.dart';
 
 import 'note_model.dart';
 
-class DeleteButton extends StatefulWidget {
-  const DeleteButton({
+class DeleteButton extends StatelessWidget {
+  DeleteButton({
     super.key,
     required this.note,
     required this.onDelete,
@@ -13,12 +13,7 @@ class DeleteButton extends StatefulWidget {
   final NoteModel note;
   final VoidCallback onDelete;
 
-  @override
-  State<DeleteButton> createState() => _DeleteButtonState();
-}
-
-class _DeleteButtonState extends State<DeleteButton> {
-  SqlDb sqlDb = SqlDb();
+  final SqlDb sqlDb = SqlDb();
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +23,9 @@ class _DeleteButtonState extends State<DeleteButton> {
         color: Colors.red,
       ),
       onPressed: () async {
-        int response = await sqlDb
-            .deleteData("DELETE FROM notes WHERE id = ${widget.note.id}");
-        widget.onDelete();
+        int response =
+            await sqlDb.deleteData("DELETE FROM notes WHERE id = ${note.id}");
+        onDelete();
       },
     );
   }

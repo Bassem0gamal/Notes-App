@@ -1,7 +1,7 @@
 class NoteModel {
-  int id;
-  String note;
-  String title;
+  final int id;
+  final String note;
+  final String title;
 
   NoteModel({
     required this.note,

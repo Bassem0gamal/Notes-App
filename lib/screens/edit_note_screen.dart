@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/database/edit_note_controller_screen.dart';
-import 'package:note_app/database/sqldb.dart';
 import 'package:note_app/model/note_model.dart';
 
 import 'home_screen.dart';
@@ -19,7 +18,6 @@ class EditNoteScreen extends StatefulWidget {
 }
 
 class _EditNoteScreenState extends State<EditNoteScreen> {
-  SqlDb sqlDb = SqlDb();
 
   GlobalKey<FormState> key = GlobalKey();
 

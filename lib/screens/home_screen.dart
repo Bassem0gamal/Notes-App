@@ -4,7 +4,6 @@ import 'package:note_app/model/note_model.dart';
 import 'package:note_app/screens/add_note_screen.dart';
 import 'package:note_app/model/delete_button.dart';
 import 'package:note_app/model/edit_button.dart';
-import 'package:note_app/database/sqldb.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,7 +13,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  SqlDb sqlDb = SqlDb();
   bool isLoading = true;
   ReadDataController dataController = ReadDataController();
   late List<NoteModel> noteList;
