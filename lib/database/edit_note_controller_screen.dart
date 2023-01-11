@@ -16,6 +16,7 @@ class EditNoteController {
 
     if (response != 0) {
       print(response);
+      print('Edit success');
     } else {
       print('Failed to edit the note!');
     }

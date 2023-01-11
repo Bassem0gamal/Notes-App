@@ -1,36 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/database/edit_note_controller_screen.dart';
 import 'package:note_app/database/sqldb.dart';
+import 'package:note_app/model/note_model.dart';
 
 import 'home_screen.dart';
 
-class EditNote extends StatefulWidget {
-  const EditNote(
-      {Key? key, required this.note, required this.title, required this.id})
-      : super(key: key);
+class EditNoteScreen extends StatefulWidget {
+  const EditNoteScreen({
+    Key? key,
+    required this.noteModel,
+  }) : super(key: key);
 
   static String screenId = 'add_notes';
-  final String note;
-  final String title;
-  final int id;
+  final NoteModel noteModel;
 
   @override
-  State<EditNote> createState() => _EditNoteState();
+  State<EditNoteScreen> createState() => _EditNoteScreenState();
 }
 
-class _EditNoteState extends State<EditNote> {
+class _EditNoteScreenState extends State<EditNoteScreen> {
   SqlDb sqlDb = SqlDb();
 
   GlobalKey<FormState> key = GlobalKey();
 
-  TextEditingController note = TextEditingController();
-  TextEditingController title = TextEditingController();
+  TextEditingController noteController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
 
   @override
   void initState() {
-    note.text = widget.note;
-    title.text = widget.title;
+    noteController.text = widget.noteModel.note;
+    titleController.text = widget.noteModel.title;
     super.initState();
     print('initState ===================');
+  }
+
+  @override
+  void dispose() {
+    noteController.dispose();
+    titleController.dispose();
+    super.dispose();
   }
 
   @override
@@ -50,13 +58,13 @@ class _EditNoteState extends State<EditNote> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   TextFormField(
-                    controller: title,
+                    controller: titleController,
                     decoration: const InputDecoration(
                       hintText: 'title',
                     ),
                   ),
                   TextFormField(
-                    controller: note,
+                    controller: noteController,
                     decoration: const InputDecoration(
                       hintText: 'note',
                     ),
@@ -66,21 +74,14 @@ class _EditNoteState extends State<EditNote> {
                   ),
                   MaterialButton(
                     onPressed: () async {
-                      int response = await sqlDb.updateData('''
-                       UPDATE notes SET 
-                        note = "${note.text}" ,
-                        title = "${title.text}" 
-                       WHERE id = ${widget.id}
-                        ''');
-
-                      print('Response ============');
-                      print(response);
-                      if (response > 0) {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => const Home()),
-                            (route) => false);
-                      }
+                      EditNoteController().edit(
+                          note: noteController.text,
+                          title: titleController.text,
+                          id: widget.noteModel.id);
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => const Home()),
+                          (route) => false);
+                      print('Edit Success');
                     },
                     color: Colors.blue,
                     textColor: Colors.white,

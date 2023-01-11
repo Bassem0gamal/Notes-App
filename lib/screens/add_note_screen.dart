@@ -21,6 +21,13 @@ class _MyNotesState extends State<MyNotes> {
   TextEditingController title = TextEditingController();
 
   @override
+  void dispose() {
+    note.dispose();
+    title.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

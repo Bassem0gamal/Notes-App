@@ -3,7 +3,7 @@ import 'package:note_app/database/sqldb.dart';
 class AddNoteController {
   SqlDb sqlDb = SqlDb();
 
-  Future<AddNoteController> add(
+  Future<void> add(
       {required String? note, required String? title}) async {
     int response = await sqlDb.insertData('''
                         INSERT INTO notes ("note" , "title")
@@ -18,7 +18,5 @@ class AddNoteController {
     } else {
       print('Failed to add new note!');
     }
-    return AddNoteController();
-    //return add(note: note, title: title);
   }
 }
